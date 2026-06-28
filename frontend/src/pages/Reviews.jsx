@@ -1,19 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Container,
-  Card,
-  Table,
-  Spinner,
-  Badge,
-  Pagination,
-  OverlayTrigger,
-  Popover,
-  Row,
-  Col,
-  Form,
-  Button
-} from "react-bootstrap";
+import { Container, Card, Table, Spinner, Badge, Pagination, OverlayTrigger, Popover, Row, Col, Form, Button } from "react-bootstrap";
+import { FaClipboardList, FaStar, FaBoxOpen, FaSmile, FaMeh, FaFrown, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+
 
 class Reviews extends Component {
 
@@ -344,7 +333,31 @@ class Reviews extends Component {
                           </p>
 
                           <p>
-                            <strong>Rating:</strong> ⭐ {review.rating}
+                            <strong>Rating:</strong>{" "}
+
+                            {review.rating >= 4 ? (
+
+                              <>
+                                <FaStar className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            ) : review.rating >= 3 ? (
+
+                              <>
+                                <FaStarHalfAlt className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            ) : (
+
+                              <>
+                                <FaRegStar className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            )}
+
                           </p>
 
                           <p>
@@ -414,19 +427,42 @@ class Reviews extends Component {
                         <td>{review.profile_name}</td>
                         <td>{review.product_id}</td>
 
-                        <td>
+                        <td><Badge
+                          bg={
+                            review.rating >= 4
+                              ? "success"
+                              : review.rating >= 3
+                                ? "warning"
+                                : "danger"
+                          }
+                        >
+                          {review.rating >= 4 ? (
 
-                          <Badge
-                            bg={
-                              review.rating >= 4
-                                ? "success"
-                                : review.rating >= 3
-                                  ? "warning"
-                                  : "danger"
-                            }
-                          >
-                            ⭐ {review.rating}
-                          </Badge>
+                            <>
+                              <FaStar className="text-warning me-1" />
+                              {review.rating}
+                            </>
+
+                          ) : review.rating >= 3 ? (
+
+                            <>
+                              <FaStarHalfAlt className="text-warning me-1" />
+                              {review.rating}
+                            </>
+
+                          ) : (
+
+                            <>
+                              <FaRegStar className="text-warning me-1" />
+                              {review.rating}
+                            </>
+
+                          )}
+
+
+                        </Badge>
+
+
 
                         </td>
 

@@ -1,0 +1,724 @@
+/* ==========================
+   Global
+========================== */
+
+body{
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(rgba(8,18,36,.88),rgba(8,18,36,.88)),
+    url("https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* ==========================
+   Sidebar
+========================== */
+
+.sidebar{
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 250px;
+
+    height: 100vh;
+
+    background: #1f2937;
+
+    color: white;
+
+    z-index: 1000;
+
+    overflow-y: auto;
+
+    transition: all .3s ease;
+
+}
+
+.sidebar .nav-link{
+
+    color: #d1d5db;
+
+    font-size: 16px;
+
+    padding: 15px 25px;
+
+    transition: .3s;
+
+}
+
+.sidebar .nav-link:hover{
+
+    background: #374151;
+
+    color: white;
+
+}
+
+.sidebar .nav-link.active{
+
+    background: #0d6efd;
+
+    color: white;
+
+}
+
+.sidebar-title{
+
+    text-align: center;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #38bdf8;
+
+    padding: 20px 0;
+
+    border-bottom: 1px solid #374151;
+
+}
+
+/* ==========================
+   Main Content
+========================== */
+
+.main-content{
+
+    margin-left:250px;
+
+    min-height:100vh;
+
+    transition:.3s;
+
+}
+
+.content-area{
+
+    padding:25px;
+
+}
+
+/* ==========================
+   Navbar
+========================== */
+
+.custom-navbar{
+
+    background:rgba(17,24,39,.85) !important;
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+
+}
+
+/* ==========================
+   Heading
+========================== */
+
+.dashboard-title{
+
+    color:#fff;
+
+    font-size:42px;
+
+    font-weight:700;
+
+}
+
+.dashboard-subtitle{
+
+    color:#d4d4d4;
+
+    font-size:18px;
+
+}
+
+/* ==========================
+   Dashboard Cards
+========================== */
+
+/* .dashboard-card{
+
+    border:none;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.15);
+
+    backdrop-filter:blur(12px);
+
+    color:white;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+
+    transition:.3s;
+
+    height:150px;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.45);
+
+}
+
+.dashboard-card h5{
+
+    font-size:18px;
+
+}
+
+.dashboard-card h1{
+
+    font-size:38px;
+
+    font-weight:bold;
+
+} */
+ .card-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    height:100%;
+
+}
+
+.card-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    color:#fff;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+
+    transition:.3s;
+
+}
+
+
+.dashboard-card:hover .card-icon{
+
+    transform:rotate(-10deg) scale(1.1);
+
+}
+
+.total-card{
+
+    background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+
+}
+
+.rating-card{
+
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+
+}
+
+.product-card{
+
+    background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+
+}
+
+.positive-card{
+
+    background:linear-gradient(135deg,#22c55e,#15803d);
+
+}
+
+.neutral-card{
+
+    background:linear-gradient(135deg,#facc15,#ca8a04);
+
+}
+
+.negative-card{
+
+    background:linear-gradient(135deg,#ef4444,#b91c1c);
+
+}
+
+.dashboard-card{
+
+    height:auto;
+
+    min-height:150px;
+
+    margin-bottom:15px;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+}
+
+/* ==========================
+   Table Card
+========================== */
+
+.table-card{
+
+    border:none;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.30);
+
+}
+.table-responsive{
+
+    overflow-x:auto;
+
+}
+
+/* ==========================
+   Card Header
+========================== */
+
+.table-header{
+
+    background:#212529;
+
+    color:white;
+
+    padding:18px 25px;
+
+    font-size:22px;
+
+    font-weight:600;
+
+    border:none;
+
+}
+
+/* ==========================
+   Remove Empty Space
+========================== */
+
+.table-card .card-body{
+
+    padding:0;
+
+}
+
+/* ==========================
+   Table
+========================== */
+
+.table{
+
+    margin:0;
+
+}
+
+.table thead{
+
+    background:#1f2937;
+
+    color:white;
+
+}
+
+.table thead th{
+
+    padding:16px;
+
+    font-size:15px;
+
+    
+
+}
+
+.table tbody td{
+
+    padding:14px;
+
+    
+
+}
+
+/* ==========================
+   Hover Effect
+========================== */
+
+.table tbody tr{
+
+    transition:.25s;
+
+}
+
+.table tbody tr:hover{
+
+    background:#edf5ff;
+
+    
+
+    cursor:pointer;
+
+}
+
+/* ==========================
+   Links
+========================== */
+
+.table a{
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+.table a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ==========================
+   Badge
+========================== */
+
+.badge{
+
+    font-size:14px;
+
+    padding:7px 12px;
+
+}
+
+/* ==========================
+   Pagination
+========================== */
+
+.pagination{
+
+    justify-content:center;
+
+    margin:20px 0;
+
+}
+
+.page-link{
+
+    border-radius:8px;
+
+    margin:0 4px;
+
+}
+
+.page-item.active .page-link{
+
+    background:#0d6efd;
+
+    border-color:#0d6efd;
+
+}
+
+/* ==========================
+   Loading
+========================== */
+
+.loading-screen{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+}
+
+.menu-icon{
+
+    font-size:26px;
+
+    cursor:pointer;
+
+    display:none;
+
+}
+
+.sidebar-header{
+
+    position:relative;
+
+    padding:25px 20px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+.close-icon{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    display:none;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    color:white;
+
+}
+
+.sidebar-brand{
+
+    display:flex;
+
+    /* flex-direction:column; */
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.sidebar-logo{
+
+    font-size:25px;
+
+    margin-bottom:10px;
+
+}
+
+.sidebar-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#38bdf8;
+
+    margin:0;
+
+}
+
+.sidebar .nav-link:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding-left:35px;
+
+}
+
+
+.sidebar-link.active{
+
+    background:#0d6efd;
+
+    color:#fff !important;
+
+    border-radius:8px;
+
+    margin:5px 10px;
+
+}
+
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.4);
+
+    z-index:999;
+
+}
+
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width:991px){
+
+.sidebar{
+
+    width:70px;
+
+}
+
+.sidebar-title{
+
+    font-size:0;
+
+}
+
+.sidebar .nav-link{
+
+    text-align:center;
+
+    padding:18px 0;
+
+}
+
+.sidebar .nav-link svg{
+
+    margin-right:0 !important;
+
+    font-size:22px;
+
+}
+
+.main-content{
+
+    margin-left:70px;
+
+}
+
+}
+
+/* ==========================
+   Responsive Sidebar
+========================== */
+
+@media (max-width: 768px){
+
+    .menu-icon{
+
+        display:block;
+
+    }
+
+    .sidebar{
+
+        left:-260px;
+
+        width:250px;
+
+        height:100vh;
+
+        position:fixed;
+
+        top:0;
+
+        transition:left .3s ease;
+
+    }
+
+    .sidebar.active{
+
+        left:0;
+
+    }
+
+    .main-content{
+
+        margin-left:0;
+
+    }
+
+    .content-area{
+
+        padding:15px;
+
+    }
+
+    .custom-navbar{
+
+        padding:15px;
+
+    }
+    .close-icon{
+
+    display:block;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.dashboard-title{
+
+    font-size:24px;
+
+}
+
+.dashboard-subtitle{
+
+    font-size:14px;
+
+}
+
+.dashboard-card{
+
+    margin-bottom:15px;
+
+}
+
+.table{
+
+    font-size:12px;
+
+}
+
+.table th,
+.table td{
+
+    padding:8px;
+
+}
+
+}

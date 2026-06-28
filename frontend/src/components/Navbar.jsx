@@ -1,56 +1,33 @@
-import { Navbar, Nav, Container, Form, FormControl, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Container } from "react-bootstrap";
+import { FaBars, FaChartLine } from "react-icons/fa";
 
-function NavigationBar() {
+function NavigationBar({ setShowSidebar }) {
+
   return (
-    <Navbar
-      expand="lg"
-      bg="dark"
-      variant="dark"
-      className="shadow-sm"
-      sticky="top"
-    >
+
+    <Navbar className="custom-navbar">
+
       <Container fluid>
 
-        {/* <Navbar.Brand
-          as={Link}
-          to="/"
-          className="fw-bold fs-3 text-info"
+        <FaBars
+          className="menu-icon"
+          onClick={() => setShowSidebar(true)}
+        />
+
+        <Navbar.Brand
+          className="fw-bold text-info fs-4 ms-3"
         >
-          📊 SentimentScope
-        </Navbar.Brand> */}
 
-        <Navbar.Toggle aria-controls="navbar-nav" />
+          <FaChartLine className="me-2" /> SentimentScope
 
-        <Navbar.Collapse id="navbar-nav">
-
-          <Nav className="me-auto">
-
-            <Nav.Link as={Link} to="/">
-              Dashboard
-            </Nav.Link>
-
-            <Nav.Link as={Link} to="/reviews">
-              Reviews
-            </Nav.Link>
-
-            {/* <Nav.Link as={Link} to="/analytics">
-                            Analytics
-                        </Nav.Link>
-
-                       */}
-
-          </Nav>
-
-
-
-
-
-        </Navbar.Collapse>
+        </Navbar.Brand>
 
       </Container>
+
     </Navbar>
+
   );
+
 }
 
 export default NavigationBar;

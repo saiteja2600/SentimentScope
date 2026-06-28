@@ -44,8 +44,11 @@ def create_app():
     # Register blueprints (routes)
     from routes.review_routes import review_bp
     from routes.dashboard_review import dashboard_bp
+    from routes.analytics_review import analytics_bp
 
     app.register_blueprint(review_bp, url_prefix='/api')
     app.register_blueprint(dashboard_bp, url_prefix='/api')
+    app.register_blueprint(analytics_bp, url_prefix='/api')
+
     
     return app
