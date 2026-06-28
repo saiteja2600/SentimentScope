@@ -3,19 +3,10 @@ import axios from "axios";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Table,
-  Badge,
-  Spinner,
-  OverlayTrigger,
-  Popover
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Table, Badge, Spinner, OverlayTrigger, Popover } from "react-bootstrap";
 
-import "../Dashboard.css";
+import { FaClipboardList, FaStar, FaBoxOpen, FaSmile, FaMeh, FaFrown, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+
 
 class Dashboard extends Component {
 
@@ -200,34 +191,29 @@ class Dashboard extends Component {
 
           <Col md={4}>
 
-            <Card className="dashboard-card">
+            <Card className="dashboard-card total-card">
 
-              <Card.Body>
+              <Card.Body className="card-content">
 
-                <Nav.Link as={Link} to="/reviews">
-                  <h1>{summary.total_reviews}</h1>
-                </Nav.Link>
-                <h5>Total Reviews</h5>
+                <div>
 
-              </Card.Body>
-
-            </Card>
-
-          </Col>
-
-          <Col md={4}>
-
-            <Card className="dashboard-card">
-
-              <Card.Body>
-
-                <h1>
-                  ⭐ {Number(summary.average_rating).toFixed(1)}
-                </h1>
-                <h5>Average Rating</h5>
+                  <Nav.Link
+                    as={Link}
+                    to="/reviews"
+                    className="text-white text-decoration-none p-0"
+                  >
+                    <h1 className="text-white">{summary.total_reviews}</h1>
+                  </Nav.Link>
+                  <h5 className="text-white">Total Reviews</h5>
 
 
+                </div>
 
+                <div className="card-icon">
+
+                  <FaClipboardList />
+
+                </div>
 
               </Card.Body>
 
@@ -237,13 +223,45 @@ class Dashboard extends Component {
 
           <Col md={4}>
 
-            <Card className="dashboard-card">
+            <Card className="dashboard-card rating-card">
 
-              <Card.Body>
+              <Card.Body className="card-content">
 
-                <h1>{summary.total_products}</h1>
-                <h5>Total Products</h5>
+                <div>
 
+                  <h1 className="text-white">
+
+                    {Number(summary.average_rating).toFixed(1)}
+
+                  </h1>
+                  <h5 className="text-white">Average Rating</h5>
+
+
+                </div>
+
+                <FaStar className="card-icon" />
+
+              </Card.Body>
+
+            </Card>
+
+          </Col>
+
+          <Col md={4}>
+
+            <Card className="dashboard-card product-card">
+
+              <Card.Body className="card-content">
+
+                <div>
+
+                  <h1 className="text-white">{summary.total_products}</h1>
+                  <h5 className="text-white">Total Products</h5>
+
+
+                </div>
+
+                <FaBoxOpen className="card-icon" />
 
               </Card.Body>
 
@@ -253,21 +271,23 @@ class Dashboard extends Component {
 
         </Row>
 
-        <Row className="mt-4 g-4">
+        {/* <Row className="mt-4 g-4">
 
           <Col md={4}>
 
-            <Card
-              bg="success"
-              text="white"
-              className="dashboard-card"
-            >
+            <Card className="dashboard-card positive-card">
 
-              <Card.Body>
+              <Card.Body className="card-content">
 
-                <h1>{positiveReviews}</h1>
-                <h5>Positive Reviews</h5>
+                <div>
 
+                  <h1 className="text-white">{positiveReviews}</h1>
+                  <h5 className="text-white">Positive Reviews</h5>
+
+
+                </div>
+
+                <FaSmile className="card-icon" />
 
               </Card.Body>
 
@@ -277,17 +297,19 @@ class Dashboard extends Component {
 
           <Col md={4}>
 
-            <Card
-              bg="warning"
-              text="white"
-              className="dashboard-card"
-            >
+            <Card className="dashboard-card neutral-card">
 
-              <Card.Body>
+              <Card.Body className="card-content">
 
-                <h1>{neutralReviews}</h1>
-                <h5>Neutral Reviews</h5>
+                <div>
 
+                  <h1 className="text-white">{neutralReviews}</h1>
+                  <h5 className="text-white">Neutral Reviews</h5>
+
+
+                </div>
+
+                <FaMeh className="card-icon" />
 
               </Card.Body>
 
@@ -297,17 +319,19 @@ class Dashboard extends Component {
 
           <Col md={4}>
 
-            <Card
-              bg="danger"
-              text="white"
-              className="dashboard-card"
-            >
+            <Card className="dashboard-card negative-card">
 
-              <Card.Body>
+              <Card.Body className="card-content">
 
-                <h1>{negativeReviews}</h1>
-                <h5>Negative Reviews</h5>
+                <div>
 
+                  <h1 className="text-white">{negativeReviews}</h1>
+                  <h5 className="text-white">Negative Reviews</h5>
+
+
+                </div>
+
+                <FaFrown className="card-icon" />
 
               </Card.Body>
 
@@ -315,12 +339,14 @@ class Dashboard extends Component {
 
           </Col>
 
-        </Row>
+        </Row> */}
         <Row className="mt-5">
 
           <Col>
 
             <Card className="table-card shadow">
+
+              {/* Card Header */}
 
               <Card.Header className="bg-dark text-white">
 
@@ -332,13 +358,19 @@ class Dashboard extends Component {
 
               </Card.Header>
 
-              <Card.Body>
+              {/* Card Body */}
 
+              <Card.Body className="p-3">
+
+                {/* Table */}
                 <Table
                   striped
                   hover
                   responsive
+                  className="mb-0"
                 >
+
+                  {/* Table Header */}
 
                   <thead className="table-dark">
 
@@ -352,11 +384,11 @@ class Dashboard extends Component {
                       <th>Review Title</th>
                       <th>Date</th>
 
-
-
                     </tr>
 
                   </thead>
+
+                  {/* Table Body */}
 
                   <tbody>
 
@@ -369,9 +401,7 @@ class Dashboard extends Component {
                           style={{ maxWidth: "420px" }}
                         >
 
-                          <Popover.Header
-                            as="h5"
-                          >
+                          <Popover.Header as="h5">
 
                             Review Details
 
@@ -384,84 +414,72 @@ class Dashboard extends Component {
                               <tbody>
 
                                 <tr>
-
                                   <th>Review ID</th>
-
                                   <td>{review.review_id}</td>
-
                                 </tr>
 
                                 <tr>
-
                                   <th>User ID</th>
-
                                   <td>{review.user_id}</td>
-
                                 </tr>
 
                                 <tr>
-
                                   <th>Profile</th>
-
                                   <td>{review.profile_name}</td>
-
                                 </tr>
 
                                 <tr>
-
                                   <th>Product</th>
-
                                   <td>{review.product_id}</td>
-
                                 </tr>
 
                                 <tr>
-
                                   <th>Rating</th>
 
                                   <td>
 
-                                    ⭐ {review.rating}
+                                    {review.rating >= 4 ? (
+
+                                      <>
+                                        <FaStar className="text-warning me-1" />
+                                        {review.rating}
+                                      </>
+
+                                    ) : review.rating >= 3 ? (
+
+                                      <>
+                                        <FaStarHalfAlt className="text-warning me-1" />
+                                        {review.rating}
+                                      </>
+
+                                    ) : (
+
+                                      <>
+                                        <FaRegStar className="text-warning me-1" />
+                                        {review.rating}
+                                      </>
+
+                                    )}
 
                                   </td>
 
                                 </tr>
 
                                 <tr>
-
                                   <th>Helpful Votes</th>
-
-                                  <td>
-
-                                    {review.helpful_votes}
-
-                                  </td>
-
+                                  <td>{review.helpful_votes}</td>
                                 </tr>
 
                                 <tr>
-
                                   <th>Total Votes</th>
-
-                                  <td>
-
-                                    {review.total_votes}
-
-                                  </td>
-
+                                  <td>{review.total_votes}</td>
                                 </tr>
 
                                 <tr>
-
                                   <th>Date</th>
-
-                                  <td>
-
-                                    {review.review_date}
-
-                                  </td>
-
+                                  <td>{review.review_date}</td>
                                 </tr>
+
                                 <tr>
                                   <th>Review Title</th>
                                   <td>{review.review_title}</td>
@@ -473,13 +491,7 @@ class Dashboard extends Component {
 
                             <hr />
 
-
-
-                            <h6>
-
-                              Review Text
-
-                            </h6>
+                            <h6>Review Text</h6>
 
                             <div
                               style={{
@@ -503,9 +515,7 @@ class Dashboard extends Component {
 
                       return (
 
-                        <tr
-                          key={review.review_id}
-                        >
+                        <tr key={review.review_id}>
 
                           <td>
 
@@ -531,39 +541,59 @@ class Dashboard extends Component {
                             </OverlayTrigger>
 
                           </td>
+
                           <td>{review.user_id}</td>
+
                           <td>{review.profile_name}</td>
-                          <td>
 
-                            {review.product_id}
+                          <td>{review.product_id}</td>
+                          <td><Badge
+                            bg={
+                              review.rating >= 4
+                                ? "success"
+                                : review.rating >= 3
+                                  ? "warning"
+                                  : "danger"
+                            }
+                          >
+                            {review.rating >= 4 ? (
+
+                              <>
+                                <FaStar className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            ) : review.rating >= 3 ? (
+
+                              <>
+                                <FaStarHalfAlt className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            ) : (
+
+                              <>
+                                <FaRegStar className="text-warning me-1" />
+                                {review.rating}
+                              </>
+
+                            )}
+
+
+                          </Badge>
+
+
 
                           </td>
 
-                          <td>
 
-                            <Badge
-                              bg={
-                                review.rating >= 4
-                                  ? "success"
-                                  : review.rating >= 3
-                                    ? "warning"
-                                    : "danger"
-                              }
-                            >
 
-                              ⭐ {review.rating}
-
-                            </Badge>
-
-                          </td>
+                          <td>{review.review_title}</td>
 
                           <td>
 
-                            {review.review_title}
-
-                          </td>
-                          <td>
                             {new Date(review.review_date).toLocaleDateString("en-CA")}
+
                           </td>
 
                         </tr>

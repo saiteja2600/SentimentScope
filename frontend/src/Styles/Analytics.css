@@ -1,0 +1,412 @@
+/* ==========================================
+   Analytics Page
+========================================== */
+
+.analytics-page{
+
+    padding:25px;
+
+}
+
+/* ==========================================
+   Heading
+========================================== */
+
+.analytics-title{
+
+    color:#ffffff;
+
+    font-size:38px;
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+}
+
+.analytics-subtitle{
+
+    color:#d1d5db;
+
+    font-size:17px;
+
+    margin-bottom:30px;
+
+}
+
+/* ==========================================
+   Chart Cards
+========================================== */
+
+.analytics-card{
+
+    border:none;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:rgba(66, 65, 65, 0.096);
+    
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.30);
+
+    transition:.35s;
+
+}
+
+.analytics-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 45px rgba(133, 132, 132, 0.35);
+
+}
+
+/* ==========================================
+   Card Header
+========================================== */
+
+.analytics-header{
+
+    background:linear-gradient(
+        135deg,
+        #030916,
+        #1d4ed8
+    );
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    padding:15px 20px;
+
+    border:none;
+
+}
+
+/* ==========================================
+   Card Body
+========================================== */
+
+.analytics-card .card-body{
+
+    padding:25px;
+
+}
+
+/* ==========================================
+   Charts
+========================================== */
+
+.chart-container{
+
+    width:100%;
+
+    height:420px;
+
+}
+
+/* ==========================================
+   Tooltip
+========================================== */
+
+.recharts-tooltip-wrapper{
+
+    outline:none;
+
+}
+
+.recharts-default-tooltip{
+
+    border:none !important;
+
+    border-radius:12px !important;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+}
+
+/* ==========================================
+   Legend
+========================================== */
+
+.recharts-legend-wrapper{
+
+    padding-top:15px;
+
+}
+
+/* ==========================================
+   Axis Text
+========================================== */
+
+.recharts-cartesian-axis-tick-value{
+
+    font-size:13px;
+
+}
+
+/* ==========================================
+   Grid
+========================================== */
+
+.recharts-cartesian-grid line{
+
+    stroke:#dbe4ee;
+
+}
+
+/* ==========================================
+   Loading
+========================================== */
+
+.analytics-loading{
+
+    height:70vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   Error
+========================================== */
+
+.analytics-error{
+
+    text-align:center;
+
+    color:#ff4d4d;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    margin-top:50px;
+
+}
+/* ==========================================
+   Chart Toggle
+========================================== */
+
+.chart-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,.25);
+
+    border-radius:50px;
+
+    padding:4px;
+
+    overflow:hidden;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+
+}
+
+.toggle-btn{
+
+    min-width:70px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#ffffff;
+
+    padding:8px 20px;
+
+    border-radius:40px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .35s ease;
+
+}
+
+/* Hover Effect */
+
+.toggle-btn:hover{
+
+    background:rgba(255,255,255,.15);
+
+    transform:scale(1.05);
+
+}
+
+/* Active Button */
+
+.toggle-btn.active{
+
+    background:linear-gradient(
+        135deg,
+        #60a5fa,
+        #2563eb
+    );
+
+    color:#fff;
+
+    box-shadow:
+        0 6px 18px rgba(37,99,235,.45),
+        inset 0 2px 5px rgba(255,255,255,.25);
+
+    transform:scale(1.05);
+
+}
+
+/* Click Animation */
+
+.toggle-btn:active{
+
+    transform:scale(.95);
+
+}
+
+/* Smooth Transition */
+
+.toggle-btn,
+.chart-toggle{
+
+    transition:all .35s ease;
+
+}
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:1200px){
+
+.analytics-title{
+
+    font-size:34px;
+
+}
+
+.chart-container{
+
+    height:380px;
+
+}
+
+}
+
+@media(max-width:992px){
+
+.analytics-card{
+
+    margin-bottom:25px;
+
+}
+
+.chart-container{
+
+    height:360px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.analytics-page{
+
+    padding:15px;
+
+}
+
+.analytics-title{
+
+    font-size:30px;
+
+}
+
+.analytics-subtitle{
+
+    font-size:15px;
+
+}
+
+.analytics-header{
+
+    font-size:16px;
+
+}
+
+.chart-toggle{
+
+    width:100%;
+
+    justify-content:center;
+
+}
+
+.toggle-btn{
+
+    flex:1;
+
+    padding:10px 0;
+
+}
+
+
+}
+
+@media(max-width:576px){
+
+.analytics-title{
+
+    font-size:25px;
+
+}
+
+.analytics-subtitle{
+
+    font-size:14px;
+
+}
+
+.analytics-card{
+
+    border-radius:15px;
+
+}
+
+.analytics-card .card-body{
+
+    padding:15px;
+
+}
+
+.chart-container{
+
+    height:280px;
+
+}
+
+}
