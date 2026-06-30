@@ -13,17 +13,14 @@ const Footer = () => {
         <div className="footer-content">
 
           <div className="footer-left">
-
             <img
               src={Logo}
               alt="SentimentScope"
               className="sidebar-logo"
             />
-
             <span className="sidebar-title">
               SentimentScope
             </span>
-
           </div>
 
           <div className="footer-center">
