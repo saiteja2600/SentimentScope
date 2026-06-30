@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Styles/Dashboard.css";
+import "./Styles/Main.css";
 
 import Dashboard from "./pages/Dashboard";
 import Reviews from "./pages/Reviews";
@@ -9,10 +9,12 @@ import Analytics from "./pages/Analytics";
 
 import Sidebar from "./components/Sidebar";
 import NavigationBar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
 
   const [showSidebar, setShowSidebar] = useState(false);
+  console.count("Reviews Render");
 
   return (
 
@@ -50,6 +52,7 @@ function App() {
           </Routes>
 
         </div>
+        <Footer />
 
       </div>
 

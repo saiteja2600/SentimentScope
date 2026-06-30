@@ -1,5 +1,6 @@
 import { Navbar, Container } from "react-bootstrap";
-import { FaBars, FaChartLine } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import Logo from "../assets/images/logo.png";
 
 function NavigationBar({ setShowSidebar }) {
 
@@ -14,11 +15,17 @@ function NavigationBar({ setShowSidebar }) {
           onClick={() => setShowSidebar(true)}
         />
 
-        <Navbar.Brand
-          className="fw-bold text-info fs-4 ms-3"
-        >
+        <Navbar.Brand className="sidebar-brand">
 
-          <FaChartLine className="me-2" /> SentimentScope
+          <img
+            src={Logo}
+            alt="SentimentScope"
+            className="sidebar-logo"
+          />
+
+          <span className="sidebar-title">
+            SentimentScope
+          </span>
 
         </Navbar.Brand>
 

@@ -49,17 +49,49 @@ def analytics_dp():
 
         
         review_over_time = """
-        SELECT
-    TO_CHAR(review_date, 'Mon YYYY') AS month,
-    COUNT(*) AS "Total Reviews"
-FROM public.reviews
-GROUP BY DATE_TRUNC('month', review_date),
-         TO_CHAR(review_date, 'Mon YYYY')
-ORDER BY DATE_TRUNC('month', review_date);
-        """
-
+                SELECT
+            TO_CHAR(review_date, 'Mon YYYY') AS month,
+            COUNT(*) AS "Total Reviews"
+        FROM public.reviews
+        GROUP BY DATE_TRUNC('month', review_date),
+                TO_CHAR(review_date, 'Mon YYYY')
+        ORDER BY DATE_TRUNC('month', review_date);
+                """
         cursor.execute(review_over_time)
         overtime_data = cursor.fetchall()
+        
+        rating_sentiment = """
+                SELECT
+            rating,
+            CASE
+                WHEN rating >= 4 THEN 'Positive'
+                WHEN rating = 3 THEN 'Neutral'
+                ELSE 'Negative'
+            END AS sentiment,
+            COUNT(*) AS total_reviews
+        FROM reviews
+        GROUP BY rating, sentiment
+        ORDER BY rating DESC, sentiment;"""
+        
+        cursor.execute(rating_sentiment)
+        rating_sentiment_data = cursor.fetchall()
+        
+        
+        monthly_comparison = """
+                SELECT
+    TO_CHAR(review_date,'Mon YYYY') AS "Month",
+    ROUND(AVG(rating),2) AS "Average Rating",
+    COUNT(*) AS "Total Reviews"
+FROM reviews
+GROUP BY
+    DATE_TRUNC('month', review_date),
+    TO_CHAR(review_date,'Mon YYYY')
+ORDER BY DATE_TRUNC('month', review_date);
+        """
+        
+        cursor.execute(monthly_comparison)
+        montly_comprasion_data = cursor.fetchall()
+        
 
         cursor.close()
         conn.close()
@@ -72,7 +104,9 @@ ORDER BY DATE_TRUNC('month', review_date);
 
     "sentiment_distribution": sentiment_data,
 
-    "review_over_time": overtime_data
+    "review_over_time": overtime_data,
+    "rating_sentiment":rating_sentiment_data,
+      "monthly_comparison": montly_comprasion_data
 
 })
 

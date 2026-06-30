@@ -1,0 +1,44 @@
+.skeleton-card{
+
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    background:#ffffff;
+
+}
+
+.skeleton-icon{
+
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#e4e6eb;
+    animation:pulse 1.5s infinite;
+
+}
+
+.chart-skeleton{
+
+    width:100%;
+    height:280px;
+    border-radius:12px;
+    background:#e4e6eb;
+    animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+        opacity:.5;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:.5;
+    }
+
+}

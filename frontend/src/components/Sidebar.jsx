@@ -7,7 +7,7 @@ import {
   FaLayerGroup,
   FaChartLine
 } from "react-icons/fa";
-
+import Logo from "../assets/images/logo.png";
 
 function Sidebar({
 
@@ -35,14 +35,19 @@ function Sidebar({
 
         <div className="sidebar-brand">
 
-          <div className="sidebar-logo">
-            <FaChartLine className="me-2" />
+          <div className="sidebar-brand">
+
+            <img
+              src={Logo}
+              alt="SentimentScope"
+              className="sidebar-logo"
+            />
+
+            <h3 className="sidebar-title">
+              SentimentScope
+            </h3>
+
           </div>
-
-          <h3 className="sidebar-title">
-            SentimentScope
-          </h3>
-
         </div>
 
       </div>
