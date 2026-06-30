@@ -2,12 +2,13 @@ import { Component } from "react";
 import axios from "axios";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import PageLoader from "../components/PageLoader";
 
 import { Container, Row, Col, Card, Table, Badge, Spinner, OverlayTrigger, Popover } from "react-bootstrap";
 
 import { FaClipboardList, FaStar, FaBoxOpen, FaSmile, FaMeh, FaFrown, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
-
+import "../Styles/Dashboard.css"
 class Dashboard extends Component {
 
   constructor(props) {
@@ -123,26 +124,16 @@ class Dashboard extends Component {
 
     } = this.state;
 
-    if (loading) {
+    if (this.state.loading) {
 
       return (
 
-        <div className="loading-screen">
+        <PageLoader
+          cards={3}
+          charts={2}
+        />
 
-          <Spinner
-            animation="border"
-            variant="light"
-          />
-
-          <h3 className="mt-3 text-white">
-
-            Loading Dashboard...
-
-          </h3>
-
-        </div>
-
-      )
+      );
 
     }
 
@@ -167,6 +158,17 @@ class Dashboard extends Component {
     return (
 
       <Container fluid className="dashboard">
+        <div className="dashboard-page-header mb-5">
+          <div className="dashboard-title-wrapper">
+            <h2 className="dashboard-page-title">
+              Analytics Dashboard
+            </h2>
+
+            <p className="dashboard-page-subtitle">
+              Monitor key performance metrics, customer review trends, and product insights at a glance.
+            </p>
+          </div>
+        </div>
         <Row className="mb-5">
 
           {/* <Col>
@@ -395,115 +397,112 @@ class Dashboard extends Component {
                     {latestReviews.map((review) => {
 
                       const reviewPopover = (
-
                         <Popover
                           id={`popover-${review.review_id}`}
-                          style={{ maxWidth: "420px" }}
+                          className="review-popover"
                         >
-
-                          <Popover.Header as="h5">
-
+                          <Popover.Header
+                            as="h5"
+                            className="review-popover-header"
+                          >
                             Review Details
-
                           </Popover.Header>
 
-                          <Popover.Body>
+                          <Popover.Body className="review-popover-body">
 
-                            <table className="table table-sm">
+                            <div className="review-detail">
+                              <span className="review-label">Review ID: </span>
+                              <strong className="review-value">{review.review_id}</strong>
+                            </div>
 
-                              <tbody>
+                            <div className="review-detail">
+                              <span className="review-label">User ID: </span>
+                              <strong className="review-value">{review.user_id}</strong>
+                            </div>
 
-                                <tr>
-                                  <th>Review ID</th>
-                                  <td>{review.review_id}</td>
-                                </tr>
+                            <div className="review-detail">
+                              <span className="review-label">Profile: </span>
+                              <strong className="review-value">{review.profile_name}</strong>
+                            </div>
 
-                                <tr>
-                                  <th>User ID</th>
-                                  <td>{review.user_id}</td>
-                                </tr>
+                            <div className="review-detail">
+                              <span className="review-label">Product: </span>
+                              <strong className="review-value">{review.product_id}</strong>
+                            </div>
 
-                                <tr>
-                                  <th>Profile</th>
-                                  <td>{review.profile_name}</td>
-                                </tr>
+                            <div className="review-detail">
 
-                                <tr>
-                                  <th>Product</th>
-                                  <td>{review.product_id}</td>
-                                </tr>
+                              <span className="review-label">Rating: </span>
 
-                                <tr>
-                                  <th>Rating</th>
+                              <strong className="review-label">Rating:</strong>
 
-                                  <td>
+                              <span className="review-rating">
 
-                                    {review.rating >= 4 ? (
+                                {review.rating >= 4 ? (
 
-                                      <>
-                                        <FaStar className="text-warning me-1" />
-                                        {review.rating}
-                                      </>
+                                  <>
+                                    <FaStar className="rating-good me-1" />
+                                    <span className="rating-good">{review.rating}</span>
+                                  </>
 
-                                    ) : review.rating >= 3 ? (
+                                ) : review.rating >= 3 ? (
 
-                                      <>
-                                        <FaStarHalfAlt className="text-warning me-1" />
-                                        {review.rating}
-                                      </>
+                                  <>
+                                    <FaStarHalfAlt className="rating-average me-1" />
+                                    <span className="rating-average">{review.rating}</span>
+                                  </>
 
-                                    ) : (
+                                ) : (
 
-                                      <>
-                                        <FaRegStar className="text-warning me-1" />
-                                        {review.rating}
-                                      </>
+                                  <>
+                                    <FaRegStar className="rating-poor me-1" />
+                                    <span className="rating-poor">{review.rating}</span>
+                                  </>
 
-                                    )}
+                                )}
 
-                                  </td>
+                              </span>
 
-                                </tr>
+                            </div>
 
-                                <tr>
-                                  <th>Helpful Votes</th>
-                                  <td>{review.helpful_votes}</td>
-                                </tr>
+                            <div className="review-detail">
+                              <span className="review-label">Helpful Votes: </span>
+                              <strong className="review-value">{review.helpful_votes}</strong>
+                            </div>
 
-                                <tr>
-                                  <th>Total Votes</th>
-                                  <td>{review.total_votes}</td>
-                                </tr>
+                            <div className="review-detail">
+                              <span className="review-label">Total Votes: </span>
+                              <strong className="review-value">{review.total_votes}</strong>
+                            </div>
 
-                                <tr>
-                                  <th>Date</th>
-                                  <td>{review.review_date}</td>
-                                </tr>
+                            <div className="review-detail">
+                              <span className="review-label">Date: </span>
+                              <strong className="review-value">
+                                {new Date(review.review_date).toLocaleDateString("en-CA")}
+                              </strong>
+                            </div>
 
-                                <tr>
-                                  <th>Review Title</th>
-                                  <td>{review.review_title}</td>
-                                </tr>
+                            <div className="review-section">
 
-                              </tbody>
+                              <h6 className="review-section-title">
+                                Review Title:
+                              </h6>
 
-                            </table>
+                              <div className="review-title-box">
+                                {review.review_title}
+                              </div>
 
-                            <hr />
+                            </div>
 
-                            <h6>Review Text</h6>
+                            <div className="review-section">
 
-                            <div
-                              style={{
-                                maxHeight: "150px",
-                                overflowY: "auto",
-                                background: "#f8f9fa",
-                                padding: "10px",
-                                borderRadius: "10px"
-                              }}
-                            >
+                              <h6 className="review-section-title">
+                                Review Text:
+                              </h6>
 
-                              {review.review_text}
+                              <div className="review-text-box">
+                                <p>{review.review_text}</p>
+                              </div>
 
                             </div>
 
@@ -547,42 +546,43 @@ class Dashboard extends Component {
                           <td>{review.profile_name}</td>
 
                           <td>{review.product_id}</td>
-                          <td><Badge
-                            bg={
-                              review.rating >= 4
-                                ? "success"
-                                : review.rating >= 3
-                                  ? "warning"
-                                  : "danger"
-                            }
-                          >
-                            {review.rating >= 4 ? (
+                          <td>
 
-                              <>
-                                <FaStar className="text-warning me-1" />
-                                {review.rating}
-                              </>
+                            <Badge
+                              bg={
+                                review.rating >= 4
+                                  ? "success"
+                                  : review.rating >= 3
+                                    ? "warning"
+                                    : "danger"
+                              }
+                              className="px-3 py-2"
+                            >
 
-                            ) : review.rating >= 3 ? (
+                              {review.rating >= 4 ? (
 
-                              <>
-                                <FaStarHalfAlt className="text-warning me-1" />
-                                {review.rating}
-                              </>
+                                <>
+                                  <FaStar className="badge-success-star me-1" />
+                                  {review.rating}
+                                </>
 
-                            ) : (
+                              ) : review.rating >= 3 ? (
 
-                              <>
-                                <FaRegStar className="text-warning me-1" />
-                                {review.rating}
-                              </>
+                                <>
+                                  <FaStarHalfAlt className="badge-warning-star me-1" />
+                                  {review.rating}
+                                </>
 
-                            )}
+                              ) : (
 
+                                <>
+                                  <FaRegStar className="badge-danger-star me-1" />
+                                  {review.rating}
+                                </>
 
-                          </Badge>
+                              )}
 
-
+                            </Badge>
 
                           </td>
 

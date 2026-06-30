@@ -16,16 +16,23 @@ def get_reviews():
 
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
+        rating = request.args.get("rating", type=float)
+        
+        
+
+    
 
         # ---------------- VALIDATION ----------------
 
         if start_date and end_date and start_date > end_date:
+
             return jsonify({
                 "status": "error",
                 "message": "Start Date cannot be greater than End Date."
             }), 400
 
         conn = get_connection()
+
         cursor = conn.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor
         )
@@ -35,6 +42,7 @@ def get_reviews():
         count_query = """
             SELECT COUNT(*) AS total
             FROM reviews
+            WHERE 1 = 1
         """
 
         count_params = []
@@ -42,13 +50,21 @@ def get_reviews():
         if start_date and end_date:
 
             count_query += """
-                WHERE review_date BETWEEN %s AND %s
+                AND review_date BETWEEN %s AND %s
             """
 
             count_params.extend([
                 start_date,
                 end_date
             ])
+
+        if rating is not None:
+
+            count_query += """
+                AND rating = %s
+            """
+
+            count_params.append(rating)
 
         cursor.execute(count_query, count_params)
 
@@ -71,6 +87,7 @@ def get_reviews():
                 review_text,
                 TO_CHAR(review_date,'YYYY-MM-DD') AS review_date
             FROM reviews
+            WHERE 1 = 1
         """
 
         data_params = []
@@ -78,13 +95,21 @@ def get_reviews():
         if start_date and end_date:
 
             data_query += """
-                WHERE review_date BETWEEN %s AND %s
+                AND review_date BETWEEN %s AND %s
             """
 
             data_params.extend([
                 start_date,
                 end_date
             ])
+
+        if rating is not None:
+            data_query += """
+                    AND rating = %s
+                """
+            data_params.append(rating)
+
+        # Pagination
 
         data_query += """
             ORDER BY review_date DESC
@@ -96,18 +121,18 @@ def get_reviews():
             offset
         ])
 
+        print(data_query)
+        print(data_params)
+
         cursor.execute(data_query, data_params)
 
         reviews = cursor.fetchall()
 
         message = ""
 
-        if start_date and end_date and len(reviews) == 0:
+        if len(reviews) == 0:
 
-            message = (
-                f"No reviews found between "
-                f"{start_date} and {end_date}."
-            )
+            message = "No reviews found."
 
         cursor.close()
         conn.close()
@@ -124,6 +149,8 @@ def get_reviews():
         })
 
     except Exception as e:
+
+        print(e)
 
         return jsonify({
 

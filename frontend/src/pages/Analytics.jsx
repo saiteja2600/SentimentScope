@@ -1,6 +1,12 @@
 import { Component } from "react";
 import axios from "axios";
 import "../Styles/Analytics.css";
+import PageLoader from "../components/PageLoader";
+import RatingDistribution from "../components/RatingDistribution";
+import SentimentDistribution from "../components/SentimentDistribution";
+import ReviewTrend from "../components/ReviewTrend"
+import RatingSentiment from "../components/RatingSentiment";
+import MonthlyComparison from "../components/MonthlyComparision";
 
 import {
   Container,
@@ -24,7 +30,8 @@ import {
   LineChart,
   Line,
   AreaChart,
-  Area
+  Area,
+  ComposedChart
 } from "recharts";
 
 import {
@@ -60,10 +67,16 @@ class Analytics extends Component {
       sentimentDistribution: [],
       overtimeReview: [],
 
+      ratingSentiment: [],
+      monthlyComparison: [],
+
+
       ratingView: "2D",
 
       sentimentView: "2D",
       reviewTrendView: "2D",
+      monthlyComparisonView: '2D',
+      ratingSentimentView: '2D',
 
       loading: true,
 
@@ -85,6 +98,9 @@ class Analytics extends Component {
 
           sentimentDistribution: response.data.sentiment_distribution,
           overtimeReview: response.data.review_over_time,
+          ratingSentiment: response.data.rating_sentiment,
+
+          monthlyComparison: response.data.monthly_comparison,
 
           loading: false
 
@@ -117,6 +133,8 @@ class Analytics extends Component {
       ratingDistribution,
       sentimentDistribution,
       overtimeReview,
+      ratingSentiment,
+      monthlyComparison,
       loading,
       error
 
@@ -130,15 +148,14 @@ class Analytics extends Component {
 
     ];
 
-    if (loading) {
+    if (this.state.loading) {
 
       return (
 
-        <div className="analytics-loading">
-
-          Loading Analytics...
-
-        </div>
+        <PageLoader
+          cards={3}
+          charts={2}
+        />
 
       );
 
@@ -157,6 +174,30 @@ class Analytics extends Component {
       );
 
     }
+    const transformedRatingSentiment = [];
+
+    for (let rating = 5; rating >= 1; rating--) {
+
+      const row = {
+        rating: `${rating}★`,
+        Positive: 0,
+        Neutral: 0,
+        Negative: 0
+      };
+
+      ratingSentiment.forEach(item => {
+
+        if (item.rating === rating) {
+
+          row[item.sentiment] = item.total_reviews;
+
+        }
+
+      });
+
+      transformedRatingSentiment.push(row);
+
+    }
 
 
 
@@ -165,9 +206,23 @@ class Analytics extends Component {
       <Container fluid className="analytics-page">
 
 
-        {/* Heading */}
+        <div className="analytics-page-header mb-5">
 
-        <Row className="mb-4">
+          <div className="analytics-title-wrapper">
+
+            <h2 className="analytics-page-title">
+              Analytics
+            </h2>
+
+            <p className="analytics-page-subtitle">
+              Explore customer review trends, sentiment distribution, ratings, and performance insights through interactive visualizations.
+            </p>
+
+          </div>
+
+        </div>
+
+        <Row className="g-4">
 
           <Col>
 
@@ -181,591 +236,60 @@ class Analytics extends Component {
 
         </Row>
 
-        <Row>
+        <Row className="g-4">
 
 
 
-          <Col xl={6} lg={6} md={12} sm={12} className="mb-4">
+          <Col
+            xl={6}
+            lg={6}
+            md={12}
+            sm={12}
+            className="mb-4"
+          >
 
-            <Card className="analytics-card">
+            <RatingDistribution
 
-              <Card.Header className="analytics-header">
+              ratingDistribution={ratingDistribution}
 
-                <div className="d-flex justify-content-between align-items-center">
+              ratingView={this.state.ratingView}
 
-                  <div>
+              onViewChange={(view) =>
+                this.setState({
+                  ratingView: view
+                })
+              }
 
-                    <FaChartBar className="me-2" />
-
-                    Rating Distribution
-
-                  </div>
-
-                  <div className="chart-toggle">
-
-                    <button
-                      className={
-                        this.state.ratingView === "2D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-
-                      onClick={() =>
-                        this.setState({
-                          ratingView: "2D"
-                        })
-                      }
-
-                    >
-
-                      2D
-
-                    </button>
-
-                    <button
-                      className={
-                        this.state.ratingView === "3D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-
-                      onClick={() =>
-                        this.setState({
-                          ratingView: "3D"
-                        })
-                      }
-
-                    >
-
-                      3D
-
-                    </button>
-
-                  </div>
-
-                </div>
-
-              </Card.Header>
-
-              <Card.Body>
-
-                <div className="chart-container">
-
-                  <ResponsiveContainer
-                    width="100%"
-                    height="100%"
-                  >
-
-
-                    <BarChart data={ratingDistribution}>
-
-                      {this.state.ratingView === "3D" && (
-
-                        <defs>
-
-                          <linearGradient
-                            id="ratingGradient"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                          >
-
-                            <stop
-                              offset="0%"
-                              stopColor="#070c13"
-                            />
-
-                            <stop
-                              offset="100%"
-                              stopColor="#1d4ed8"
-                            />
-
-                          </linearGradient>
-
-                        </defs>
-
-                      )}
-
-                      <CartesianGrid strokeDasharray="3 3" />
-
-                      <XAxis dataKey="rating" />
-
-                      <YAxis />
-
-                      <Tooltip
-                        content={({ active, payload }) => {
-
-                          if (active && payload && payload.length) {
-
-                            const totalReviews = ratingDistribution.reduce(
-                              (sum, item) => sum + item["Total Reviews"],
-                              0
-                            );
-
-                            const current = payload[0].payload;
-
-                            const percentage = (
-                              (current["Total Reviews"] / totalReviews) * 100
-                            ).toFixed(2);
-
-                            let sentiment = "";
-                            let SentimentIcon = FaSmile;
-                            let progressColor = "#22c55e";
-
-                            if (current.rating >= 4) {
-
-                              sentiment = "Positive";
-                              SentimentIcon = FaSmile;
-                              progressColor = "#22c55e";
-
-                            }
-                            else if (current.rating === 3) {
-
-                              sentiment = "Neutral";
-                              SentimentIcon = FaMeh;
-                              progressColor = "#facc15";
-
-                            }
-                            else {
-
-                              sentiment = "Negative";
-                              SentimentIcon = FaFrown;
-                              progressColor = "#ef4444";
-
-                            }
-
-                            return (
-
-                              <div
-                                style={{
-                                  background: "#1f2937",
-                                  color: "#fff",
-                                  padding: "15px",
-                                  borderRadius: "12px",
-                                  border: "1px solid #2563eb",
-                                  boxShadow: "0 8px 20px rgba(0,0,0,.35)",
-                                  minWidth: "240px"
-                                }}
-                              >
-
-                                <h6
-                                  style={{
-                                    color: "#60a5fa",
-                                    marginBottom: "12px"
-                                  }}
-                                >
-
-                                  Rating Details
-
-                                </h6>
-
-                                <p className="mb-2">
-
-                                  <strong className="me-2">Rating:</strong>
-
-                                  {[1, 2, 3, 4, 5].map((star) => {
-
-                                    if (current.rating >= star) {
-
-                                      return (
-                                        <FaStar
-                                          key={star}
-                                          className="text-warning me-1"
-                                        />
-                                      );
-
-                                    }
-                                    else if (current.rating >= star - 0.5) {
-
-                                      return (
-                                        <FaStarHalfAlt
-                                          key={star}
-                                          className="text-warning me-1"
-                                        />
-                                      );
-
-                                    }
-
-                                    return (
-                                      <FaRegStar
-                                        key={star}
-                                        className="text-warning me-1"
-                                      />
-                                    );
-
-                                  })}
-
-                                  <span className="ms-2 fw-bold">
-
-                                    ({current.rating})
-
-                                  </span>
-
-                                </p>
-                                <p className="mb-2">
-
-                                  <SentimentIcon
-                                    className="me-2"
-                                    style={{ color: progressColor }}
-                                  />
-
-                                  <strong>Sentiment:</strong> {sentiment}
-
-                                </p>
-
-                                <p className="mb-2">
-
-                                  <FaClipboardList
-                                    className="me-2 text-info"
-                                  />
-
-                                  <strong>Total Reviews:</strong> {current["Total Reviews"]}
-
-                                </p>
-
-                                <p className="mb-3">
-
-                                  <FaPercentage
-                                    className="me-2 text-success"
-                                  />
-
-                                  <strong>Percentage:</strong> {percentage}%
-
-                                </p>
-
-                                <div
-                                  style={{
-                                    background: "#374151",
-                                    borderRadius: "8px",
-                                    overflow: "hidden",
-                                    height: "8px"
-                                  }}
-                                >
-
-                                  <div
-                                    style={{
-                                      width: `${percentage}%`,
-                                      height: "100%",
-                                      background: progressColor
-                                    }}
-                                  />
-
-                                </div>
-
-                              </div>
-
-                            );
-
-                          }
-
-                          return null;
-
-                        }}
-                      />
-
-                      <Bar
-
-                        dataKey="Total Reviews"
-
-                        fill={
-                          this.state.ratingView === "3D"
-                            ? "url(#ratingGradient)"
-                            : "#2563eb"
-                        }
-
-                        radius={
-                          this.state.ratingView === "3D"
-                            ? [18, 18, 4, 4]
-                            : [6, 6, 0, 0]
-                        }
-
-                      />
-
-                    </BarChart>
-
-                  </ResponsiveContainer>
-
-                </div>
-
-              </Card.Body>
-
-            </Card>
+            />
 
           </Col>
 
           {/* Sentiment Distribution */}
 
+
+
           <Col xl={6} lg={6} md={12} sm={12} className="mb-4">
 
-            <Card className="analytics-card">
+            <SentimentDistribution
 
-              <Card.Header className="analytics-header">
+              sentimentDistribution={sentimentDistribution}
 
-                <div className="d-flex justify-content-between align-items-center">
+              sentimentView={this.state.sentimentView}
 
-                  <div>
+              COLORS={COLORS}
 
-                    <FaChartPie className="me-2" />
+              onViewChange={(view) =>
+                this.setState({
+                  sentimentView: view
+                })
+              }
 
-                    Sentiment Distribution
-
-                  </div>
-
-                  <div className="chart-toggle">
-
-                    <button
-                      className={
-                        this.state.sentimentView === "2D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-
-                      onClick={() =>
-                        this.setState({
-                          sentimentView: "2D"
-                        })
-                      }
-
-                    >
-
-                      2D
-
-                    </button>
-
-                    <button
-                      className={
-                        this.state.sentimentView === "3D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-
-                      onClick={() =>
-                        this.setState({
-                          sentimentView: "3D"
-                        })
-                      }
-
-                    >
-
-                      3D
-
-                    </button>
-
-                  </div>
-
-                </div>
-
-              </Card.Header>
-
-              <Card.Body>
-
-                <div className="chart-container">
-
-                  <ResponsiveContainer
-                    width="100%"
-                    height="100%"
-                  >
-
-                    <PieChart>
-
-                      <Pie
-
-                        data={sentimentDistribution}
-
-                        dataKey="total_reviews"
-
-                        nameKey="sentiment"
-
-                        innerRadius={
-                          this.state.sentimentView === "3D"
-                            ? 90
-                            : 60
-                        }
-
-                        outerRadius={
-                          this.state.sentimentView === "3D"
-                            ? 140
-                            : 120
-                        }
-
-                        paddingAngle={
-                          this.state.sentimentView === "3D"
-                            ? 5
-                            : 2
-                        }
-
-                        stroke="#ffffff"
-
-                        strokeWidth={
-                          this.state.sentimentView === "3D"
-                            ? 4
-                            : 1
-                        }
-
-                      >
-
-                        {sentimentDistribution.map((entry, index) => (
-
-                          <Cell
-                            key={index}
-                            fill={COLORS[index]}
-                          />
-
-                        ))}
-
-                      </Pie>
-                      <Tooltip
-                        content={({ active, payload }) => {
-
-                          if (active && payload && payload.length) {
-
-                            const totalReviews = sentimentDistribution.reduce(
-                              (sum, item) => sum + item.total_reviews,
-                              0
-                            );
-
-                            const current = payload[0].payload;
-
-                            const percentage = (
-                              (current.total_reviews / totalReviews) * 100
-                            ).toFixed(2);
-
-                            let SentimentIcon = FaSmile;
-                            let color = "#22c55e";
-                            let ratingRange = "Ratings 4 - 5";
-
-                            if (current.sentiment === "Neutral") {
-
-                              SentimentIcon = FaMeh;
-                              color = "#facc15";
-                              ratingRange = "Rating 3";
-
-                            }
-
-                            if (current.sentiment === "Negative") {
-
-                              SentimentIcon = FaFrown;
-                              color = "#ef4444";
-                              ratingRange = "Ratings 1 - 2";
-
-                            }
-
-                            return (
-
-                              <div
-                                style={{
-                                  background: "#1f2937",
-                                  color: "#fff",
-                                  borderRadius: "12px",
-                                  padding: "15px",
-                                  minWidth: "250px",
-                                  border: `2px solid ${color}`,
-                                  boxShadow: "0 8px 20px rgba(0,0,0,.35)"
-                                }}
-                              >
-
-                                <h6
-                                  style={{
-                                    color: color,
-                                    marginBottom: "12px"
-                                  }}
-                                >
-
-                                  <SentimentIcon className="me-2" />
-
-                                  {current.sentiment} Reviews
-
-                                </h6>
-
-                                <p className="mb-2">
-
-                                  <FaClipboardList
-                                    className="me-2 text-info"
-                                  />
-
-                                  <strong>Total Reviews:</strong>
-
-                                  {" "}
-
-                                  {current.total_reviews}
-
-                                </p>
-
-                                <p className="mb-2">
-
-                                  <FaPercentage
-                                    className="me-2 text-success"
-                                  />
-
-                                  <strong>Percentage:</strong>
-
-                                  {" "}
-
-                                  {percentage}%
-
-                                </p>
-
-                                <p className="mb-3">
-
-                                  <FaInfoCircle
-                                    className="me-2 text-warning"
-                                  />
-
-                                  <strong>Rating Range:</strong>
-
-                                  {" "}
-
-                                  {ratingRange}
-
-                                </p>
-
-                                <div
-                                  style={{
-                                    height: "8px",
-                                    borderRadius: "8px",
-                                    background: "#374151",
-                                    overflow: "hidden"
-                                  }}
-                                >
-
-                                  <div
-                                    style={{
-                                      width: `${percentage}%`,
-                                      height: "100%",
-                                      background: color
-                                    }}
-                                  />
-
-                                </div>
-
-                              </div>
-
-                            );
-
-                          }
-
-                          return null;
-
-                        }}
-                      />
-
-                      <Legend />
-
-                    </PieChart>
-
-                  </ResponsiveContainer>
-
-                </div>
-
-              </Card.Body>
-
-            </Card>
+            />
 
           </Col>
 
         </Row>
-        <Row>
+        <Row className="g-4">
 
           <Col
             xl={12}
@@ -774,325 +298,64 @@ class Analytics extends Component {
             className="mb-4"
           >
 
-            <Card className="analytics-card">
-
-              <Card.Header className="analytics-header">
-
-                <div className="d-flex justify-content-between align-items-center">
-
-                  <div>
-
-                    <FaChartLine className="me-2" />
-
-                    Reviews Over Time
-
-                  </div>
-
-                  <div className="chart-toggle">
-
-                    <button
-                      className={
-                        this.state.reviewTrendView === "2D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-                      onClick={() =>
-                        this.setState({
-                          reviewTrendView: "2D"
-                        })
-                      }
-                    >
-                      2D
-                    </button>
+            <ReviewTrend
 
-                    <button
-                      className={
-                        this.state.reviewTrendView === "3D"
-                          ? "toggle-btn active"
-                          : "toggle-btn"
-                      }
-                      onClick={() =>
-                        this.setState({
-                          reviewTrendView: "3D"
-                        })
-                      }
-                    >
-                      3D
-                    </button>
+              overtimeReview={this.state.overtimeReview}
 
-                  </div>
+              reviewTrendView={this.state.reviewTrendView}
 
-                </div>
+              onViewChange={(view) =>
+                this.setState({
+                  reviewTrendView: view
+                })
+              }
 
-              </Card.Header>
+            />
+          </Col>
 
-              <Card.Body>
+        </Row>
 
-                <div className="chart-container">
+        <Row className="g-4">
 
-                  <ResponsiveContainer
-                    width="100%"
-                    height="100%"
-                  >
+          <Col xl={6} lg={6} md={12} className="mb-4">
 
-                    {this.state.reviewTrendView === "2D" ? (
+            <RatingSentiment
 
-                      <LineChart data={overtimeReview}>
+              transformedRatingSentiment={transformedRatingSentiment}
 
-                        <CartesianGrid strokeDasharray="3 3" />
+              ratingSentimentView={this.state.ratingSentimentView}
 
-                        <XAxis
-                          dataKey="month"
-                          tickFormatter={(value) => {
-                            const [month, year] = value.split(" ");
-                            return month === "Jan" ? year : "";
-                          }}
-                          interval={0}
-                          label={{
-                            value: "Years",
-                            position: "insideBottom",
-                            offset: -5
-                          }}
-                        />
+              onViewChange={(view) =>
+                this.setState({
+                  ratingSentimentView: view
+                })
+              }
 
-                        <YAxis
-                          label={{
-                            value: "Reviews",
-                            angle: -90,
-                            position: "insideLeft"
-                          }}
-                        />
+            />
 
-                        <Tooltip
-                          content={({ active, payload }) => {
+          </Col>
+          <Col
+            xl={6}
+            lg={6}
+            md={12}
+            className="mb-4"
+          >
 
-                            if (active && payload && payload.length) {
+            <MonthlyComparison
 
-                              const current = payload[0].payload;
+              monthlyComparison={monthlyComparison}
 
-                              return (
+              monthlyComparisonView={this.state.monthlyComparisonView}
 
-                                <div
-                                  style={{
-                                    background: "#1f2937",
-                                    color: "#fff",
-                                    borderRadius: "12px",
-                                    padding: "15px",
-                                    minWidth: "230px",
-                                    border: "2px solid #2563eb",
-                                    boxShadow: "0 8px 20px rgba(0,0,0,.35)"
-                                  }}
-                                >
+              onViewChange={(view) =>
+                this.setState({
 
-                                  <h6
-                                    style={{
-                                      color: "#60a5fa",
-                                      marginBottom: "12px"
-                                    }}
-                                  >
+                  monthlyComparisonView: view
 
-                                    <FaChartLine className="me-2" />
+                })
+              }
 
-                                    Review Trend
-
-                                  </h6>
-
-                                  <p className="mb-2">
-
-                                    <FaCalendarAlt className="me-2 text-warning" />
-
-                                    <strong>Month:</strong>
-
-                                    {" "}
-
-                                    {current.month}
-
-                                  </p>
-
-                                  <p className="mb-2">
-
-                                    <FaClipboardList className="me-2 text-info" />
-
-                                    <strong>Total Reviews:</strong>
-
-                                    {" "}
-
-                                    {current["Total Reviews"]}
-
-                                  </p>
-
-                                </div>
-
-                              );
-
-                            }
-
-                            return null;
-
-                          }}
-                        />
-
-                        <Legend />
-
-                        <Line
-                          type="monotone"
-                          dataKey="Total Reviews"
-                          name="Reviews"
-                          stroke="#2563eb"
-                          strokeWidth={3}
-                          dot={{ r: 5 }}
-                        />
-
-                      </LineChart>
-
-                    ) : (
-
-                      <AreaChart data={overtimeReview}>
-
-                        <defs>
-
-                          <linearGradient
-                            id="reviewGradient"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                          >
-
-                            <stop
-                              offset="5%"
-                              stopColor="#2563eb"
-                              stopOpacity={0.8}
-                            />
-
-                            <stop
-                              offset="95%"
-                              stopColor="#2563eb"
-                              stopOpacity={0}
-                            />
-
-                          </linearGradient>
-
-                        </defs>
-
-                        <CartesianGrid strokeDasharray="3 3" />
-
-                        <XAxis
-                          dataKey="month"
-                          tickFormatter={(value) => {
-                            const [month, year] = value.split(" ");
-                            return month === "Jan" ? year : "";
-                          }}
-                          interval={0}
-                          label={{
-                            value: "Years",
-                            position: "insideBottom",
-                            offset: -5
-                          }}
-                        />
-
-                        <YAxis
-                          label={{
-                            value: "Reviews",
-                            angle: -90,
-                            position: "insideLeft"
-                          }}
-                        />
-
-                        <Tooltip
-                          content={({ active, payload }) => {
-
-                            if (active && payload && payload.length) {
-
-                              const current = payload[0].payload;
-
-                              return (
-
-                                <div
-                                  style={{
-                                    background: "#1f2937",
-                                    color: "#fff",
-                                    borderRadius: "12px",
-                                    padding: "15px",
-                                    minWidth: "230px",
-                                    border: "2px solid #2563eb",
-                                    boxShadow: "0 8px 20px rgba(0,0,0,.35)"
-                                  }}
-                                >
-
-                                  <h6
-                                    style={{
-                                      color: "#60a5fa",
-                                      marginBottom: "12px"
-                                    }}
-                                  >
-
-                                    <FaChartLine className="me-2" />
-
-                                    Review Trend
-
-                                  </h6>
-
-                                  <p className="mb-2">
-
-                                    <FaCalendarAlt className="me-2 text-warning" />
-
-                                    <strong>Month:</strong>
-
-                                    {" "}
-
-                                    {current.month}
-
-                                  </p>
-
-                                  <p className="mb-2">
-
-                                    <FaClipboardList className="me-2 text-info" />
-
-                                    <strong>Total Reviews:</strong>
-
-                                    {" "}
-
-                                    {current["Total Reviews"]}
-
-                                  </p>
-
-                                </div>
-
-                              );
-
-                            }
-
-                            return null;
-
-                          }}
-                        />
-
-                        <Legend
-                          verticalAlign="top"
-                          height={40}
-                        />
-
-                        <Area
-                          type="monotone"
-                          dataKey="Total Reviews"
-                          name="Reviews"
-                          stroke="#31498b"
-                          fill="url(#reviewGradient)"
-                          strokeWidth={3}
-                        />
-
-                      </AreaChart>
-
-                    )}
-
-                  </ResponsiveContainer>
-
-                </div>
-
-              </Card.Body>
-
-            </Card>
+            />
 
           </Col>
 

@@ -4,10 +4,74 @@
 
 .analytics-page{
 
-    padding:25px;
+position:relative;
+
+overflow:hidden;
+padding:
+
+35px 32px;
 
 }
 
+.analytics-page::before{
+
+content:"";
+
+position:absolute;
+
+width:500px;
+
+height:500px;
+
+top:-180px;
+
+right:-120px;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(37,99,235,.18),
+
+transparent 70%
+
+);
+
+pointer-events:none;
+
+}
+
+.analytics-page::after{
+
+content:"";
+
+position:absolute;
+
+width:450px;
+
+height:450px;
+
+bottom:-200px;
+
+left:-120px;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(16,185,129,.10),
+
+transparent 70%
+
+);
+
+pointer-events:none;
+
+}
 /* ==========================================
    Heading
 ========================================== */
@@ -40,28 +104,38 @@
 
 .analytics-card{
 
-    border:none;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(18,28,46,.95),
+            rgba(12,19,33,.95)
+        );
 
-    border-radius:20px;
+    border:
 
-    overflow:hidden;
+1px solid rgba(96,165,250,.18);
 
-    background:rgba(66, 65, 65, 0.096);
-    
-
-    backdrop-filter:blur(12px);
-
-    box-shadow:0 12px 30px rgba(0,0,0,.30);
-
-    transition:.35s;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.35);
+         transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
 
 }
-
 .analytics-card:hover{
 
-    transform:translateY(-8px);
+    transform:
+        translateY(-6px)
+        scale(1.01);
 
-    box-shadow:0 20px 45px rgba(133, 132, 132, 0.35);
+    border-color:
+
+        rgba(96,165,250,.35);
+
+    box-shadow:
+
+        0 20px 40px rgba(0,0,0,.45);
 
 }
 
@@ -71,21 +145,24 @@
 
 .analytics-header{
 
-    background:linear-gradient(
-        135deg,
-        #030916,
-        #1d4ed8
-    );
+background:
 
-    color:white;
+linear-gradient(
 
-    font-size:18px;
+135deg,
 
-    font-weight:600;
+#0f172a,
 
-    padding:15px 20px;
+#1d4ed8,
 
-    border:none;
+#2563eb
+
+);
+
+border-bottom:
+
+1px solid rgba(255,255,255,.08);
+color: #fff;
 
 }
 
@@ -105,9 +182,21 @@
 
 .chart-container{
 
-    width:100%;
+height:430px;
+background:
+linear-gradient(
 
-    height:420px;
+180deg,
+
+rgba(255,255,255,.03),
+
+transparent
+
+);
+
+border-radius:12px;
+
+padding-top:10px;
 
 }
 
@@ -144,10 +233,21 @@
 /* ==========================================
    Axis Text
 ========================================== */
-
 .recharts-cartesian-axis-tick-value{
 
-    font-size:13px;
+fill:#d1d5db;
+
+font-size:13px;
+
+font-weight:500;
+
+}
+
+.recharts-legend-item-text{
+
+color:#d1d5db !important;
+
+font-weight:600;
 
 }
 
@@ -157,7 +257,9 @@
 
 .recharts-cartesian-grid line{
 
-    stroke:#dbe4ee;
+stroke:
+
+rgba(255,255,255,.08);
 
 }
 
@@ -204,97 +306,138 @@
    Chart Toggle
 ========================================== */
 
+/* ============================
+   Modern Chart Toggle
+=============================*/
+
 .chart-toggle{
 
     display:flex;
 
     align-items:center;
 
-    background:rgba(255,255,255,.18);
+    background:rgba(255,255,255,.06);
 
-    backdrop-filter:blur(10px);
-
-    border:1px solid rgba(255,255,255,.25);
+    border:1px solid rgba(255,255,255,.08);
 
     border-radius:50px;
 
-    padding:4px;
+    padding:5px;
 
-    overflow:hidden;
+    backdrop-filter:blur(20px);
 
-    box-shadow:0 6px 18px rgba(0,0,0,.25);
+    box-shadow:
+        inset 0 1px 3px rgba(255,255,255,.08),
+        0 8px 18px rgba(0,0,0,.35);
 
 }
 
 .toggle-btn{
 
-    min-width:70px;
+    width:72px;
+
+    height:38px;
 
     border:none;
 
     background:transparent;
 
-    color:#ffffff;
-
-    padding:8px 20px;
-
-    border-radius:40px;
-
-    font-size:14px;
+    color:#9ca3af;
 
     font-weight:600;
 
-    cursor:pointer;
+    font-size:14px;
 
-    transition:all .35s ease;
+    border-radius:30px;
+
+    transition:.35s ease;
+
+    position:relative;
 
 }
-
-/* Hover Effect */
 
 .toggle-btn:hover{
 
-    background:rgba(255,255,255,.15);
+    color:white;
 
-    transform:scale(1.05);
+    transform:translateY(-1px);
 
 }
-
-/* Active Button */
 
 .toggle-btn.active{
 
-    background:linear-gradient(
-        135deg,
-        #60a5fa,
-        #2563eb
-    );
+background:
 
-    color:#fff;
+linear-gradient(
 
-    box-shadow:
-        0 6px 18px rgba(37,99,235,.45),
-        inset 0 2px 5px rgba(255,255,255,.25);
+135deg,
 
-    transform:scale(1.05);
+#10b981,
 
-}
+#22c55e
 
-/* Click Animation */
+);
 
-.toggle-btn:active{
+box-shadow:
 
-    transform:scale(.95);
+0 0 20px rgba(34,197,94,.45);
+color:#fff
 
 }
 
-/* Smooth Transition */
+.toggle-btn.active::before{
 
-.toggle-btn,
-.chart-toggle{
+    content:"";
 
-    transition:all .35s ease;
+    position:absolute;
 
+    inset:0;
+
+    border-radius:30px;
+
+    background:
+
+        linear-gradient(
+
+            rgba(255,255,255,.18),
+
+            transparent
+
+        );
+
+}
+
+/* ==========================================
+   Analytics Page Header
+========================================== */
+
+.analytics-page-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.analytics-title-wrapper {
+    border-left: 5px solid #0d6efd;
+    padding-left: 18px;
+}
+
+.analytics-page-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ecedf0;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.analytics-page-subtitle {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 760px;
 }
 /* ==========================================
    Responsive
@@ -310,7 +453,9 @@
 
 .chart-container{
 
-    height:380px;
+height:430px;
+
+padding-top:10px;
 
 }
 
@@ -326,7 +471,9 @@
 
 .chart-container{
 
-    height:360px;
+height:430px;
+
+padding-top:10px;
 
 }
 
@@ -405,7 +552,9 @@
 
 .chart-container{
 
-    height:280px;
+height:430px;
+
+padding-top:10px;
 
 }
 
