@@ -16,17 +16,14 @@ function NavigationBar({ setShowSidebar }) {
         />
 
         <Navbar.Brand className="sidebar-brand">
-
           <img
             src={Logo}
             alt="SentimentScope"
             className="sidebar-logo"
           />
-
           <span className="sidebar-title">
             SentimentScope
           </span>
-
         </Navbar.Brand>
 
       </Container>

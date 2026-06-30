@@ -34,20 +34,15 @@ function Sidebar({
         />
 
         <div className="sidebar-brand">
+          <img
+            src={Logo}
+            alt="SentimentScope"
+            className="sidebar-logo"
+          />
 
-          <div className="sidebar-brand">
-
-            <img
-              src={Logo}
-              alt="SentimentScope"
-              className="sidebar-logo"
-            />
-
-            <h3 className="sidebar-title">
-              SentimentScope
-            </h3>
-
-          </div>
+          <h3 className="sidebar-title">
+            SentimentScope
+          </h3>
         </div>
 
       </div>

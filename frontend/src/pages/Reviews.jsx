@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import axios from "axios";
 
 import {
@@ -7,10 +7,12 @@ import {
   Spinner
 } from "react-bootstrap";
 
+
 import ReviewFilter from "../components/ReviewFilter";
 import ReviewTable from "../components/ReviewTable";
 import ReviewPagination from "../components/ReviewPagination";
 import ReviewToast from "../components/ReviewToast";
+
 class Reviews extends Component {
 
   constructor(props) {
@@ -39,6 +41,7 @@ class Reviews extends Component {
   componentDidMount() {
     this.fetchReviews();
   }
+
   showNotification = (message, variant) => {
     this.setState({
       showToast: true,
@@ -49,45 +52,41 @@ class Reviews extends Component {
 
   fetchReviews = (pageNumber = 1) => {
 
+    const {
+      limit,
+      rating,
+      startDate,
+      endDate
+    } = this.state;
+
     this.setState({
       loading: true
     });
 
-    axios.get(
-      "http://127.0.0.1:5000/api/reviews_data",
-      {
+    axios
+      .get("http://127.0.0.1:5000/api/reviews_data", {
         params: {
-
           page: pageNumber,
-
-          limit: this.state.limit,
-
-          start_date: this.state.startDate,
-
-          end_date: this.state.endDate,
-
-          rating: this.state.rating
-
+          limit,
+          rating,
+          start_date: startDate,
+          end_date: endDate
         }
-      }
-    )
+      })
       .then((response) => {
 
         this.setState({
-
           reviews: response.data.data,
-          total: response.data.total,
           page: response.data.page,
-          message: response.data.message,
-          error: ""
-
+          totalPages: response.data.total_pages,
+          message: response.data.message
         });
 
       })
-      .catch((error) => {
+      .catch(() => {
 
         this.showNotification(
-          "Unable to export reviews.",
+          "Unable to load reviews.",
           "danger"
         );
 
@@ -138,6 +137,7 @@ class Reviews extends Component {
     }
 
     this.fetchReviews(1);
+
   };
 
   render() {
@@ -158,9 +158,13 @@ class Reviews extends Component {
     } = this.state;
 
     return (
+
       <Container fluid className="reviews-page py-4">
+
         <div className="reviews-page-header mb-4">
+
           <div className="reviews-title-wrapper">
+
             <h2 className="reviews-page-title">
               Customer Feedback
             </h2>
@@ -168,12 +172,12 @@ class Reviews extends Component {
             <p className="reviews-page-subtitle">
               Browse, filter, and analyze customer reviews with powerful search and filtering tools.
             </p>
+
           </div>
+
         </div>
 
         <Card className="shadow-sm border-0">
-
-
 
           <Card.Body>
 
@@ -207,15 +211,18 @@ class Reviews extends Component {
             {loading ? (
 
               <div className="text-center py-5">
+
                 <Spinner
                   animation="border"
                   variant="primary"
                 />
+
               </div>
 
             ) : (
 
               <>
+
                 <ReviewTable
                   reviews={reviews}
                   message={message}
@@ -224,10 +231,9 @@ class Reviews extends Component {
                 <ReviewPagination
                   page={page}
                   totalPages={totalPages}
-                  onPageChange={(page) =>
-                    this.fetchReviews(page)
-                  }
+                  onPageChange={this.fetchReviews}
                 />
+
               </>
 
             )}
@@ -248,6 +254,7 @@ class Reviews extends Component {
         />
 
       </Container>
+
     );
 
   }
