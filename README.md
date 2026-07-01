@@ -170,12 +170,3 @@ Software Engineer | Aspiring Azure Data Engineer
 
 LinkedIn:
 https://www.linkedin.com/in/sai-teja-chippada-33bb9b216/
-
----
-
-## License
-
-This project is intended for educational and portfolio purposes.
-
-
-
